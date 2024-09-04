@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "real-time-financial-advisor"
+version = "0.1.0"
+description = ""
+authors = ["Massyl"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bytewax = "^0.21.0"
+pydantic = "^2.8.2"
+langchain = "^0.2.16"
+langchain-community = "^0.2.16"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
