@@ -11,6 +11,8 @@ bytewax = "^0.21.0"
 pydantic = "^2.8.2"
 langchain = "^0.2.16"
 langchain-community = "^0.2.16"
+qdrant-client = "^1.11.1"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
