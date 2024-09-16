@@ -6,6 +6,7 @@ from streaming_pipeline.models import Document
 from qdrant_client.models import PointStruct
 from dotenv import load_dotenv
 import os
+from typing import Optional
 
 collection_name = "alpaca_financial_news"
 load_dotenv()
@@ -23,21 +24,7 @@ class QdrantVectorOutput(DynamicSink):
         if client:
             self.client = QdrantClient(":memory:")
         else:
-            try:
-                url = os.environ["QDRANT_URL"]
-            except KeyError:
-                raise KeyError(
-                    "QDRANT_URL must be set as environment variable or manually passed as an argument."
-                )
-
-            try:
-                api_key = os.environ["QDRANT_API_KEY"]
-            except KeyError:
-                raise KeyError(
-                    "QDRANT_API_KEY must be set as environment variable or manually passed as an argument."
-                )
-
-            self.client = QdrantClient(url, api_key=api_key)
+            self.client = build_qdrant_client()
 
         try:
             self.client.get_collection(collection_name=self._collection_name)
@@ -77,3 +64,26 @@ class QdrantVectorSink(StatelessSinkPartition):
             ]
             self._client.upsert(collection_name=self._collection_name, points=points)
 
+
+def build_qdrant_client(
+    url: Optional[str] = None,
+    api_key: Optional[str] = None,
+):
+        
+    try:
+        url = os.environ["QDRANT_URL"]
+    except KeyError:
+        raise KeyError(
+            "QDRANT_URL must be set as environment variable or manually passed as an argument."
+        )
+
+    try:
+        api_key = os.environ["QDRANT_API_KEY"]
+    except KeyError:
+        raise KeyError(
+            "QDRANT_API_KEY must be set as environment variable or manually passed as an argument."
+        )
+
+    client = QdrantClient(url, api_key=api_key)
+
+    return client

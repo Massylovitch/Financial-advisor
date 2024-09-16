@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 import hashlib
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OllamaEmbeddings
-
 
 class NewsArticle(BaseModel):
 
@@ -42,10 +40,10 @@ class Document(BaseModel):
             self.chunks.extend(recursive_text_splitter_chunks)
         return self
 
-    def compute_embeddings(self):
-        ollama_emb = OllamaEmbeddings(model="all-minilm:l6-v2")
-        embedding = ollama_emb.embed_documents(self.chunks)
-        self.embeddings.append(embedding)
+    def compute_embeddings(self, model):
+        for chunk in self.chunks:
+            embedding = model(chunk, to_list=True)
+            self.embeddings.append(embedding)
 
         return self
 
