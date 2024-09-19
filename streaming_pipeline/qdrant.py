@@ -37,16 +37,6 @@ class QdrantVectorOutput(DynamicSink):
             )
 
     def build(self, step_id, worker_index, worker_count):
-        """Builds a QdrantVectorSink object.
-
-        Args:
-            worker_index (int): The index of the worker.
-            worker_count (int): The total number of workers.
-
-        Returns:
-            QdrantVectorSink: A QdrantVectorSink object.
-        """
-
         return QdrantVectorSink(self.client)
 
 
@@ -63,7 +53,6 @@ class QdrantVectorSink(StatelessSinkPartition):
                 PointStruct(id=ids, vector=document.embeddings[0][0], payload=payloads)
             ]
             self._client.upsert(collection_name=self._collection_name, points=points)
-
 
 def build_qdrant_client(
     url: Optional[str] = None,

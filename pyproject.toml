@@ -8,7 +8,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 bytewax = "^0.21.0"
-pydantic = "^2.8.2"
 langchain = "^0.2.16"
 langchain-community = "^0.2.16"
 qdrant-client = "^1.11.1"
@@ -16,7 +15,14 @@ python-dotenv = "^1.0.1"
 beam = "^0.6.0"
 transformers = "^4.44.2"
 torch = "^2.4.1"
+fire = "^0.6.0"
+accelerate = "^0.34.2"
+beam-client = "^0.2.75"
+gradio = "^4.44.0"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
 
 [build-system]
 requires = ["poetry-core"]
