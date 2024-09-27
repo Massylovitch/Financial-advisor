@@ -80,7 +80,7 @@ class MockedPipeline:
 
 class FinancialBot:
 
-    def __init__(self,):
+    def __init__(self,  debug=debug):
         self._llm_model_id = llm_model_id
         self._embedding_model = EmbeddingModel()
         self._qdrant_client = build_qdrant_client()

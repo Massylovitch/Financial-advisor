@@ -12,13 +12,12 @@ langchain = "^0.2.16"
 langchain-community = "^0.2.16"
 qdrant-client = "^1.11.1"
 python-dotenv = "^1.0.1"
-beam = "^0.6.0"
 transformers = "^4.44.2"
 torch = "^2.4.1"
 fire = "^0.6.0"
 accelerate = "^0.34.2"
-beam-client = "^0.2.75"
 gradio = "^4.44.0"
+beam-client = "^0.2.77"
 
 
 [tool.poetry.group.dev.dependencies]
