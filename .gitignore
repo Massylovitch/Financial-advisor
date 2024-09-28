@@ -2,3 +2,5 @@
 *.pyc
 offload/
 *.dat
+data
+*.json
