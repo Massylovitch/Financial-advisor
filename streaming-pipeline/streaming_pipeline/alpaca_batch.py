@@ -30,8 +30,6 @@ class AlpacaNewsBatchClient:
             "Apca-Api-Secret-Key":  os.environ["ALPACA_API_SECRET"],
         }
 
-        # Look at all the parameters here: https://alpaca.markets/docs/api-references/market-data-api/news-data/historical/
-        # or here: https://github.com/alpacahq/alpaca-py/blob/master/alpaca/data/requests.py#L357
         params = {
             "start": self._from_datetime.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "end": self._to_datetime.strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -46,7 +44,7 @@ class AlpacaNewsBatchClient:
 
         # parse output
         next_page_token = None
-        if response.status_code == 200:  # Check if the request was successful
+        if response.status_code == 200:
             # parse response into json
             news_json = response.json()
 

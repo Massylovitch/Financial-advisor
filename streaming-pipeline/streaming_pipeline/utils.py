@@ -3,10 +3,7 @@ import datetime
 def split_time_range_into_intervals(
     from_datetime, to_datetime, n):
 
-    # Calculate total duration between from_datetime and to_datetime.
     total_duration = to_datetime - from_datetime
-
-    # Calculate the length of each interval.
     interval_length = total_duration / n
 
     # Generate the interval.

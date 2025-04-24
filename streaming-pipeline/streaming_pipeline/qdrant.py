@@ -1,24 +1,28 @@
+import os
+from dotenv import load_dotenv
+from typing import Optional
+
 from bytewax.outputs import DynamicSink, StatelessSinkPartition
 from qdrant_client import QdrantClient
 from qdrant_client.http.api_client import UnexpectedResponse
 from qdrant_client.http.models import Distance, VectorParams
 from streaming_pipeline.models import Document
 from qdrant_client.models import PointStruct
-from dotenv import load_dotenv
-import os
-from typing import Optional
+from streaming_pipeline import constants
 
-collection_name = "alpaca_financial_news"
 load_dotenv()
+
 
 class QdrantVectorOutput(DynamicSink):
 
     def __init__(
         self,
+        vector_size=384,
         client=None,
+        collection_name=constants.VECTOR_DB_OUTPUT_COLLECTION_NAME,
     ):
 
-        self._vector_size = 384
+        self._vector_size = vector_size
         self._collection_name = collection_name
 
         if client:
@@ -29,7 +33,7 @@ class QdrantVectorOutput(DynamicSink):
         try:
             self.client.get_collection(collection_name=self._collection_name)
         except (UnexpectedResponse, ValueError):
-            self.client.recreate_collection(
+            self.client.create_collection(
                 collection_name=self._collection_name,
                 vectors_config=VectorParams(
                     size=self._vector_size, distance=Distance.COSINE
@@ -54,11 +58,12 @@ class QdrantVectorSink(StatelessSinkPartition):
             ]
             self._client.upsert(collection_name=self._collection_name, points=points)
 
+
 def build_qdrant_client(
     url: Optional[str] = None,
     api_key: Optional[str] = None,
 ):
-        
+
     try:
         url = os.environ["QDRANT_URL"]
     except KeyError:
