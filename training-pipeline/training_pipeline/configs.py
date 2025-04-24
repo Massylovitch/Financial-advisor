@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from transformers import TrainingArguments
 from typing import Any, Dict
-from utils import load_yaml
+from training_pipeline.utils import load_yaml
 
 
 @dataclass
@@ -19,11 +19,9 @@ class TrainingConfig:
         )
 
         return cls(**config)
-    
+
     @classmethod
-    def _dict_to_training_arguments(
-        cls, training_config, output_dir
-    ):
+    def _dict_to_training_arguments(cls, training_config, output_dir):
 
         return TrainingArguments(
             output_dir=str(output_dir),
@@ -47,4 +45,19 @@ class TrainingConfig:
             seed=training_config["seed"],
             load_best_model_at_end=training_config["load_best_model_at_end"],
         )
-    
+
+
+@dataclass
+class InferenceConfig:
+
+    model: Dict[str, Any]
+    peft_model: Dict[str, Any]
+    setup: Dict[str, Any]
+    dataset: Dict[str, str]
+
+    @classmethod
+    def from_yaml(cls, config_path):
+
+        config = load_yaml(config_path)
+
+        return cls(**config)

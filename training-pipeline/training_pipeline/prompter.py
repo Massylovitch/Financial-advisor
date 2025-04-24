@@ -67,10 +67,9 @@ class PromptTemplate:
             question=sample["question"],
         )
         return {"prompt": prompt, "payload": sample}
-    
 
 
-templates= {}
+templates = {}
 
 
 def register_llm_template(template: PromptTemplate):

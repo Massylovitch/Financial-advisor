@@ -1,6 +1,6 @@
-from utils import load_json
+from training_pipeline.utils import load_json
 from dataclasses import asdict, dataclass, field
-from prompter import get_llm_template
+from training_pipeline.prompter import get_llm_template
 from datasets import Dataset
 
 
@@ -11,15 +11,15 @@ class DataSample:
     chat_history: str = ""
     question: str = ""
     answer: str = ""
-    
+
 
 class FinanceDataset:
     def __init__(
         self,
         data_path,
         scope,
-        template= "falcon",
-        max_samples= None,
+        template="falcon",
+        max_samples=None,
     ):
 
         self._data_path = data_path
@@ -74,14 +74,17 @@ class FinanceDataset:
         )
 
         return dataset
-    
+
 
 if __name__ == "__main__":
     from pathlib import Path
+
     training_dataset = FinanceDataset(
-            data_path= Path("datasets") / "training_data.json",
-            template="falcon",
-            scope="training",
-        )
-    
-    print(training_dataset._raw_data[0])
+        data_path=Path("datasets") / "training_data.json",
+        template="falcon",
+        scope="training",
+    ).to_huggingface()
+
+    print(training_dataset["prompt"][0])
+    print("------------------------------------------------------")
+    print(training_dataset["payload"][0])

@@ -1,10 +1,10 @@
 import logging
 from trl import SFTTrainer
-import models
-from transformers import TrainerCallback 
+from training_pipeline import models
+from transformers import TrainerCallback
 from pathlib import Path
 import comet_ml
-from data_proc import FinanceDataset
+from training_pipeline.data_proc import FinanceDataset
 import numpy as np
 
 
@@ -15,6 +15,10 @@ CACHE_DIR = Path.home() / ".cache" / "tutorial"
 class BestModelToModelRegistryCallback(TrainerCallback):
     def __init__(self, model_id) -> None:
         self._model_id = model_id
+
+    @property
+    def model_name(self):
+        return f"financial_assistant/{self._model_id}"
 
     def on_train_end(self, args, state, control, **kwargs):
 
