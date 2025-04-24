@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "generate-dataset"
+version = "0.1.0"
+description = ""
+authors = ["Massyl GH <massyl-6@hotmail.fr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-dotenv = "^1.1.0"
+langchain-ollama = "^0.3.2"
+tqdm = "^4.67.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,5 +1,5 @@
 from tqdm import tqdm
-from langchain_community.chat_models import ChatOllama 
+from langchain_ollama import ChatOllama
 import json
 from utils.paths import DATA_DIR
 from utils.logger import get_logger
