@@ -48,7 +48,7 @@ class QdrantVectorSink(StatelessSinkPartition):
 
     def __init__(self, client):
         self._client = client
-        self._collection_name = collection_name
+        self._collection_name = constants.VECTOR_DB_OUTPUT_COLLECTION_NAME
 
     def write_batch(self, documents: Document):
         for document in documents:

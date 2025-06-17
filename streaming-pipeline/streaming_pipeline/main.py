@@ -8,7 +8,7 @@ import datetime
 from streaming_pipeline.embeddings import EmbeddingModel
 
 
-def build_alpca_news_flow(latest_n_days=1):
+def build_alpaca_news_flow(latest_n_days=1):
 
     to_datetime = datetime.datetime.now()
     from_datetime = to_datetime - datetime.timedelta(days=latest_n_days)
@@ -31,3 +31,5 @@ def build_alpca_news_flow(latest_n_days=1):
     )
     # op.inspect("help", embeddings)
     op.output("output", embeddings, QdrantVectorOutput())
+
+    return flow
