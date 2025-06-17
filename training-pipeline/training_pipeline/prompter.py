@@ -55,7 +55,7 @@ class PromptTemplate:
             answer=sample["answer"],
         )
 
-        return {"prompt": prompt, "payload": sample}
+        return {"prompt": prompt, "payload": sample, "completion": sample["answer"]}
 
     def format_infer(self, sample):
         """Formats the data sample to a testing sample"""
@@ -66,7 +66,7 @@ class PromptTemplate:
             chat_history=sample.get("chat_history", ""),
             question=sample["question"],
         )
-        return {"prompt": prompt, "payload": sample}
+        return {"prompt": prompt, "payload": sample, "completion": sample["answer"]}
 
 
 templates = {}

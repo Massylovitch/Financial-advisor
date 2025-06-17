@@ -1,12 +1,11 @@
 from dataclasses import dataclass
-from transformers import TrainingArguments
 from typing import Any, Dict
 from training_pipeline.utils import load_yaml
-
+from trl import SFTConfig
 
 @dataclass
 class TrainingConfig:
-    training: TrainingArguments
+    training: SFTConfig
     model: Dict[str, Any]
 
     @classmethod
@@ -23,7 +22,7 @@ class TrainingConfig:
     @classmethod
     def _dict_to_training_arguments(cls, training_config, output_dir):
 
-        return TrainingArguments(
+        return SFTConfig(
             output_dir=str(output_dir),
             logging_dir=str(output_dir / "logs"),
             per_device_train_batch_size=training_config["per_device_train_batch_size"],
@@ -39,11 +38,15 @@ class TrainingConfig:
             num_train_epochs=training_config["num_train_epochs"],
             warmup_ratio=training_config["warmup_ratio"],
             lr_scheduler_type=training_config["lr_scheduler_type"],
-            evaluation_strategy=training_config["evaluation_strategy"],
+            eval_strategy=training_config["evaluation_strategy"],
             eval_steps=training_config["eval_steps"],
             report_to=training_config["report_to"],
             seed=training_config["seed"],
             load_best_model_at_end=training_config["load_best_model_at_end"],
+            dataset_text_field=training_config["dataset_text_field"],
+            packing=training_config["packing"],
+            eos_token=training_config["eos_token"],
+            max_seq_length=training_config["max_seq_length"],
         )
 
 

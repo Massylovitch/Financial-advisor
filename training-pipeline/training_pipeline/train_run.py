@@ -2,24 +2,24 @@ from training_pipeline.training import TrainingAPI
 from pathlib import Path
 import fire
 from training_pipeline import configs
-from beam import Volume, Image, function
+# from beam import Volume, Image, function
 
 
-@function(
-    name="train_qa",
-    volumes=[
-        Volume(mount_path="./qa_dataset", name="qa_dataset"),
-        Volume(
-            mount_path="./output",
-            name="train_qa_output",
-        ),
-        Volume(mount_path="./model_cache", name="model_cache"),
-    ],
-    secrets=["COMET_API_KEY", "COMET_WORKSPACE", "COMET_PROJECT_NAME"],
-    image=Image(python_version="python3.12", python_packages="requirements.txt"),
-    gpu="T4",
-    cpu=4,
-)
+# @function(
+#     name="train_qa",
+#     volumes=[
+#         Volume(mount_path="./qa_dataset", name="qa_dataset"),
+#         Volume(
+#             mount_path="./output",
+#             name="train_qa_output",
+#         ),
+#         Volume(mount_path="./model_cache", name="model_cache"),
+#     ],
+#     secrets=["COMET_API_KEY", "COMET_WORKSPACE", "COMET_PROJECT_NAME"],
+#     image=Image(python_version="python3.12", python_packages="requirements.txt"),
+#     gpu="T4",
+#     cpu=4,
+# )
 def train(
     config_file: str,
     output_dir: str,

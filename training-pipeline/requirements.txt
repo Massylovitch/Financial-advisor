@@ -1,9 +1,9 @@
-transformers == 4.44.2
-torch == 2.4.1
-fire == 0.6.0
-accelerate == 0.34.2
-trl == 0.11.1
-peft == 0.13.0
-comet-ml == 3.47.0
-bitsandbytes == 0.44.0
-opik == 0.1.19
+transformers
+torch
+fire
+accelerate
+trl
+peft
+comet-ml
+bitsandbytes
+opik

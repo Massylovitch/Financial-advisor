@@ -1,9 +1,10 @@
+from comet_ml import API
 from transformers import BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer
 import torch
 import os
 from peft import LoraConfig, PeftModel
 from pathlib import Path
-from comet_ml import API
+
 
 CACHE_DIR = Path.home() / ".cache" / "tutorial"
 

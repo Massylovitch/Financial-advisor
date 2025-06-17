@@ -6,16 +6,16 @@ authors = ["Massyl GH <massyl-6@hotmail.fr>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 websockets = "12"
 beam-client = "0.2.150"
 fire = "^0.7.0"
-trl = "^0.16.1"
 comet-ml = "^3.49.8"
 peft = "^0.15.2"
 opik = "1.0.1"
 httpx = "^0.28.1"
 bitsandbytes = "^0.45.5"
+trl = "^0.17.0"
 
 
 [build-system]

@@ -2,26 +2,26 @@ from training_pipeline.inference import InferenceAPI
 from pathlib import Path
 import fire
 from training_pipeline import configs
-from beam import Volume, Image, function, Output
+# from beam import Volume, Image, function, Output
 
 OUTPUT_PATH = "./output"
 
 
-@function(
-    name="inference_qa",
-    volumes=[
-        Volume(mount_path="./qa_dataset", name="qa_dataset"),
-        Volume(mount_path="./model_cache", name="model_cache"),
-        Volume(
-            mount_path=OUTPUT_PATH,
-            name="train_qa_output",
-        ),
-    ],
-    secrets=["COMET_API_KEY", "COMET_WORKSPACE", "COMET_PROJECT_NAME"],
-    image=Image(python_version="python3.10", python_packages="requirements.txt"),
-    gpu="T4",
-    cpu=4,
-)
+# @function(
+#     name="inference_qa",
+#     volumes=[
+#         Volume(mount_path="./qa_dataset", name="qa_dataset"),
+#         Volume(mount_path="./model_cache", name="model_cache"),
+#         Volume(
+#             mount_path=OUTPUT_PATH,
+#             name="train_qa_output",
+#         ),
+#     ],
+#     secrets=["COMET_API_KEY", "COMET_WORKSPACE", "COMET_PROJECT_NAME"],
+#     image=Image(python_version="python3.10", python_packages="requirements.txt"),
+#     gpu="T4",
+#     cpu=4,
+# )
 def infer(
     config_file,
     dataset_dir,
@@ -43,10 +43,10 @@ def infer(
     )
 
     inference_api.infer_all(output_file=output_dir / "output-inference-api.json")
-    output = Output(path=output_dir / "output-inference-api.json")
-    output.save()
-    output_url = output.public_url()
-    print(output_url)
+    # output = Output(path=output_dir / "output-inference-api.json")
+    # output.save()
+    # output_url = output.public_url()
+    # print(output_url)
 
 
 if __name__ == "__main__":

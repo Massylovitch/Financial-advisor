@@ -1,9 +1,9 @@
 import logging
+import comet_ml
 from trl import SFTTrainer
 from training_pipeline import models
 from transformers import TrainerCallback
 from pathlib import Path
-import comet_ml
 from training_pipeline.data_proc import FinanceDataset
 import numpy as np
 
@@ -112,10 +112,7 @@ class TrainingAPI:
             eval_dataset=self._validation_dataset,
             peft_config=self._peft_config,
             args=self._training_arguments,
-            dataset_text_field="prompt",
-            max_seq_length=self._max_seq_length,
-            tokenizer=self._tokenizer,
-            packing=True,
+            processing_class=self._tokenizer,
             compute_metrics=self.compute_metrics,
             callbacks=[BestModelToModelRegistryCallback(model_id=self._model_id)],
         )
