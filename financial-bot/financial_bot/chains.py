@@ -1,9 +1,10 @@
 from langchain.chains.base import Chain
 from langchain.chains.sequential import SequentialChain
 import qdrant_client
-from embeddings import EmbeddingModel
+from financial_bot.embeddings import EmbeddingModel
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
-from template import PromptTemplate
+from financial_bot.template import PromptTemplate
+
 
 class ContextExtractorChain(Chain):
 
@@ -15,7 +16,7 @@ class ContextExtractorChain(Chain):
     @property
     def input_keys(self):
         return ["about_me", "question"]
-    
+
     @property
     def output_keys(self):
         return ["context"]
@@ -27,13 +28,13 @@ class ContextExtractorChain(Chain):
 
         question = question[: self.embedding_model._max_input_length]
         embeddings = self.embedding_model(question)
-        
+
         points_match = self.vector_store.query_points(
-            query=embeddings[0],
+            query=embeddings,
             limit=self.top_k,
             collection_name=self.vector_collection,
         )
-        
+
         context = ""
         for point in points_match.points:
             context += point.payload["text"] + "\n"
@@ -41,7 +42,8 @@ class ContextExtractorChain(Chain):
         return {
             "context": context,
         }
-    
+
+
 class FinancialBotQAChain(Chain):
 
     hf_pipeline: HuggingFacePipeline
@@ -50,11 +52,11 @@ class FinancialBotQAChain(Chain):
     @property
     def input_keys(self):
         return ["context"]
-    
+
     @property
     def output_keys(self):
         return ["answer"]
-    
+
     def _call(self, inputs):
         prompt = self.template.format_infer(
             {
@@ -66,8 +68,9 @@ class FinancialBotQAChain(Chain):
         )
 
         response = self.hf_pipeline(prompt["prompt"])
-        
+
         return {"answer": response}
+
 
 class StatelessMemorySequentialChain(SequentialChain):
 
@@ -75,24 +78,21 @@ class StatelessMemorySequentialChain(SequentialChain):
         history_input_keys = "to_load_history"
         to_load_history = inputs[history_input_keys]
 
-        for (human, ai) in to_load_history:
-            self.memory.save_context(inputs={self.memory.input_key: human},
-                                     outputs ={self.memory.output_key: ai})
-            
+        for human, ai in to_load_history:
+            self.memory.save_context(
+                inputs={self.memory.input_key: human},
+                outputs={self.memory.output_key: ai},
+            )
+
         memory_values = self.memory.load_memory_variables({})
         inputs.update(memory_values)
 
         del inputs[history_input_keys]
 
         return super()._call(inputs, **kwargs)
-    
-    def prep_outputs(
-            self,
-            inputs,
-            outputs,
-            return_only_outputs=False
-    ):
-        
+
+    def prep_outputs(self, inputs, outputs, return_only_outputs=False):
+
         results = super().prep_outputs(inputs, outputs, return_only_outputs)
 
         # Clear the internal memory.

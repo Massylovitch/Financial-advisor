@@ -1,6 +1,7 @@
 import dataclasses
 from typing import Dict, List, Union
 
+
 @dataclasses.dataclass
 class PromptTemplate:
 
@@ -23,7 +24,7 @@ class PromptTemplate:
             question=sample["question"],
         )
         return {"prompt": prompt, "payload": sample}
-    
+
     @property
     def infer_raw_template(self):
         system = self.system_template.format(system_message=self.system_message)
@@ -36,9 +37,11 @@ class PromptTemplate:
 
 templates: Dict[str, PromptTemplate] = {}
 
+
 def get_llm_template(name):
 
     return templates[name]
+
 
 def register_llm_template(template: PromptTemplate):
     """Register a new template to the global templates registry"""

@@ -6,11 +6,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def build_qdrant_client(
     url: Optional[str] = None,
     api_key: Optional[str] = None,
 ):
-        
+
     try:
         url = os.environ["QDRANT_URL"]
     except KeyError:

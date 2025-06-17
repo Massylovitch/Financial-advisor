@@ -1,16 +1,13 @@
 from transformers import AutoModel, AutoTokenizer
-
-model_name = "sentence-transformers/all-MiniLM-L6-v2"
-model_max_input_length = 384
-device = "cpu"
+from financial_bot import constants
 
 
 class EmbeddingModel:
     def __init__(
         self,
-        model_name=model_name,
-        max_input_length=model_max_input_length,
-        device=device,
+        model_name=constants.EMBEDDING_MODEL_ID,
+        max_input_length=constants.EMBEDDING_MODEL_MAX_INPUT_LENGTH,
+        device="cuda:0",
         cache_dir=None,
     ):
 
@@ -25,16 +22,18 @@ class EmbeddingModel:
         self._model.eval()
 
     def __call__(self, input_text, to_list=True):
-        
         tokenized_text = self._tokenizer(
             input_text,
             padding=True,
             truncation=True,
             return_tensors="pt",
             max_length=self._max_input_length,
-        )#.to_device(self._device)
-        
+        ).to(self._device)
+
         result = self._model(**tokenized_text)
         embeddings = result.last_hidden_state[:, 0, :].cpu().detach().numpy()
+
+        if to_list:
+            embeddings = embeddings.flatten().tolist()
 
         return embeddings
