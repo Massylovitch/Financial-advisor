@@ -4,3 +4,6 @@ offload/
 *.dat
 data
 *.json
+.*
+*.ipynb
+output/
