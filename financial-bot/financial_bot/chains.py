@@ -4,6 +4,7 @@ import qdrant_client
 from financial_bot.embeddings import EmbeddingModel
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
 from financial_bot.template import PromptTemplate
+from financial_bot import constants
 
 
 class ContextExtractorChain(Chain):
@@ -68,6 +69,7 @@ class FinancialBotQAChain(Chain):
         )
 
         response = self.hf_pipeline(prompt["prompt"])
+        response = response.split(constants.EOS_TOKEN)[-1]
 
         return {"answer": response}
 
@@ -78,11 +80,12 @@ class StatelessMemorySequentialChain(SequentialChain):
         history_input_keys = "to_load_history"
         to_load_history = inputs[history_input_keys]
 
-        for human, ai in to_load_history:
-            self.memory.save_context(
-                inputs={self.memory.input_key: human},
-                outputs={self.memory.output_key: ai},
-            )
+        humans = [i["content"] for i in to_load_history if i["role"] == "user"]
+        ais = [i["content"] for i in to_load_history if i["role"] == "assistant"]
+        self.memory.save_context(
+            inputs={self.memory.input_key: humans},
+            outputs={self.memory.output_key: ais},
+        )
 
         memory_values = self.memory.load_memory_variables({})
         inputs.update(memory_values)

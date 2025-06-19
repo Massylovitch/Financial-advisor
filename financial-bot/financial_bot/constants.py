@@ -5,6 +5,8 @@ LLM_QLORA_CHECKPOINT = "massyl/fin-falcon-7b-lora:1.0.0"
 LLM_INFERNECE_MAX_NEW_TOKENS = 500
 LLM_INFERENCE_TEMPERATURE = 1.0
 
+EOS_TOKEN = "<|endoftext|>"
+
 VECTOR_DB_OUTPUT_COLLECTION_NAME = "alpaca_financial_news"
 
 TEMPLATE_NAME = "falcon"

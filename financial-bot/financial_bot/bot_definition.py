@@ -19,8 +19,7 @@ from financial_bot import constants
 import torch
 import os
 from comet_ml import API
-from pathlib import Path
-from peft import LoraConfig, PeftConfig, PeftModel
+from peft import PeftModel
 from financial_bot import constants
 
 

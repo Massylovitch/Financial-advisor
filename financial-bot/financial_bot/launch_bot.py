@@ -26,7 +26,20 @@ def run_dev():
     inputs = {
         "about_me": "I am a student and I have some money that I want to invest.",
         "question": "Should I consider investing in stocks from the Tech Sector?",
-        "history": '[["What is your opinion on investing in startup companies?", "Startup investments can be very lucrative, but they also come with a high degree of risk. It is important to do your due diligence and research the company thoroughly before investing."]]',
+        "history": [
+            {
+                "role": "user",
+                "metadata": None,
+                "content": "What's your opinion on investing in startup companies?",
+                "options": None,
+            },
+            {
+                "role": "assistant",
+                "metadata": None,
+                "content": "Startup investments can be very lucrative, but they also come with a high degree of risk. It is important to do your due diligence and research the company thoroughly before investing.",
+                "options": None,
+            },
+        ],
         "context": bot,
     }
 
@@ -36,11 +49,11 @@ def run_dev():
 
 def _run(**inputs):
 
-    bot = inputs["context"] 
+    bot = inputs["context"]
     input_payload = {
         "about_me": inputs["about_me"],
         "question": inputs["question"],
-        "to_load_history": eval(inputs["history"]) if "history" in inputs else [],
+        "to_load_history": inputs["history"] if "history" else [],
     }
     response = bot.answer(**input_payload)
 
